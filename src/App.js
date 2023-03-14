@@ -1,19 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchBeers, setPage, setFilter } from './actions';
+import { fetchBeers, fetchBeersSuccess, setPage, setFilter } from './actions';
 import { Table, Pagination, Form } from 'react-bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const App = () => {
   const dispatch = useDispatch();
   const beers = useSelector(state => state.beers);
+  const fullbeers = useSelector(state => state.fullbeers);
   const pageNumber = useSelector(state => state.page);
   const filter = useSelector(state => state.filter);
 
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    dispatch(fetchBeers(pageNumber));
+    const setBeers = fullbeers.filter(ele=>ele.page === pageNumber);
+    if((setBeers.length > 0) && (setBeers[0].page == pageNumber)){
+      dispatch(fetchBeersSuccess(setBeers[0].data));
+    }
+    else{
+      dispatch(fetchBeers(pageNumber));
+    }
   }, [pageNumber, dispatch]);
 
   const handleSearchTermChange = (event) => {

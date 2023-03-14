@@ -1,6 +1,7 @@
-import { FETCH_BEERS_SUCCESS, SET_PAGE, SET_FILTER } from './actions';
+import { FULL_FETCH_BEERS_SUCCESS, FETCH_BEERS_SUCCESS, SET_PAGE, SET_FILTER } from './actions';
 
 const initialState = {
+  fullbeers: [],
   beers: [],
   page: 1,
   filter: '',
@@ -12,6 +13,11 @@ const beerReducer = (state = initialState, action) => {
       return {
         ...state,
         beers: action.beers,
+      };
+    case FULL_FETCH_BEERS_SUCCESS:
+      return {
+        ...state,
+        fullbeers: action.fullbeers,
       };
     case SET_PAGE:
       return {
